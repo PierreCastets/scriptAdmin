@@ -1,0 +1,2 @@
+[dev]
+cible1 ansible_host=3.122.105.161

@@ -1,0 +1,47 @@
+- name: ConfigMachineDev
+  hosts: dev
+  become: yes
+
+  roles:
+  - docker
+
+  tasks:
+    - name: Install Git and SSH
+      apt:
+        pkg:
+          - git
+          - ssh
+        state: present
+
+    - name: Create dev group
+      group:
+        name: dev
+        state: present
+      become: yes
+
+    - name: Add dev to sudoers
+      lineinfile:
+        dest: /etc/sudoers
+        state: present
+        regexp: '^%dev'
+        line: '%dev ALL=(ALL) NOPASSWD: ALL'
+        validate: 'visudo -cf %s'
+      become: yes
+
+    - name: Add ubuntu to dev group
+      user: name=ubuntu groups=dev append=yes state=present
+      become: yes
+
+    - name: Copy GitHub repo
+      git:
+        repo: https://github.com/PierreCastets/ProjetFinal.git
+        dest: /home/ubuntu/nuvola
+
+    - name: Change perms on nuvola directory
+      file:
+        state: directory
+        path: /home/ubuntu/nuvola
+        owner: ubuntu
+        group: dev
+        mode: u=rwX,g=rX,o=rX
+        recurse: yes
