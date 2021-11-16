@@ -36,6 +36,7 @@
       git:
         repo: https://github.com/PierreCastets/ProjetFinal.git
         dest: /home/ubuntu/nuvola
+        version: dev
 
     - name: Change perms on nuvola directory
       file:
