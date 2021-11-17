@@ -70,5 +70,5 @@ with open('inventory.txt', 'a') as f:
 
 with open('infos-connection.txt', 'a') as f:
     f.write(info["ip"] + " /tmp/" + info["key"] + ".pem \n")
-time.sleep(10)
+time.sleep(20)
 runansible.run_ansible(info["ip"])
